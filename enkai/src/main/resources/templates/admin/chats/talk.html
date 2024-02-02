@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+  <head>
+    <meta charset="UTF-8" th:remove="tag">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script type="text/javascript">
+		function sendMessage(){
+			const message =  $("#message").val();
+		    if (message != '') {
+				const dataJson = JSON.stringify({
+				eventId: $("#eventId").val(),
+				message: $("#message").val()
+			 });
+		 $.ajax({
+			url: "/admin/chats/create",
+			method: "POST",
+			data: dataJson,
+			contentType: "application/json",
+			dataType: "json"
+         });
+         $("#message").val("");
+            window.location.reload(true);
+         }
+	  }
+    </script>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <h1 th:text="*{event.name}"></h1>
+      <div th:each="chat: ${chats}" th:object="${chat}" class="boder">
+		  <div class="normal">
+        <ul th:text="*{user.email}"></ul>
+        <ul th:text="*{body}"></ul>
+        <ul th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></ul>
+		  </div>
+      </div>
+      
+      <ul>
+        <label>本文</label>
+        <input class="form-control" type="text" id="message">
+        <input type="hidden" id="eventId" th:value="*{event.id}">
+        <button class="btn btn-primary" onclick="sendMessage();">登録</button>
+      </ul>
+<!--      <ul class="alert alert-danger" id="alert">-->
+    </div>
+  </body>
+</html>
+

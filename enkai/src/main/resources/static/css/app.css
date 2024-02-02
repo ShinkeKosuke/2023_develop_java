@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+.main {
+  background-color: #fff;
+}
+
+.main .page-header {
+  margin-top: 0;
+}
+
+ul {
+  list-style: none;
+}
+
+.form-group.error input {
+  border-color: red;
+}
+
+.form-group.error .error-message {
+  color: red;
+}
+
+.menber {
+  background-color: rgb(128, 255, 255);
+}
+
+.center {
+	text-align: center;
+}
+.boder {
+	display: flex;
+    border: 2px solid #000000;
+    width: 300px;
+    margin-bottom: 10px;
+}
+.normal {
+	overflow-wrap: normal;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+	<head>
+		<meta charset="UTF-8" th:remove="tag">
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<h1 class="page-header">イベント新規作成</h1>
+			<form th:action="@{/admin/events/create}" th:object="${event}" method="post">
+				<ul th:if="${#fields.hasErrors()}" class="alert alert-danger" role="alert">
+				    <li th:each="err : ${#fields.errors('*')}">
+				        <span th:text="${err}"></span>
+				    </li>
+				</ul>
+				<input type="hidden" th:field="*{id}">
+				<label>イベント名</label>
+				<input class="form-control" type="text" th:field="*{name}">
+				<label>詳細</label>
+				<input class="form-control" type="text" th:field="*{detail}">
+				<label>	最大参加人数</label>
+				<input class="form-control" type="text" th:field="*{max_participant}">
+                <label for="customer">カテゴリ</label>
+                <select class="form-control" th:field="*{category}">
+                    <th:block th:each="category : ${@categoryRepository.findAll()}">
+                        <option th:value="${category.id}" th:text="${category.name}"></option>
+                    </th:block>
+                </select>
+                <label for="user">管理ユーザー</label>
+                 <select name="user" class="dropdown form-control" th:object="${login_user}">
+				    <option th:each="item : ${@userRepository.findAll()}" th:selected="${item.email == login_user}" th:value="${item.id}" th:text="${item.email}"></option>
+                </select>
+				<input class="btn btn-primary" type="submit" value="登録">
+			</form>
+		</div>
+	</body>
+</html>
