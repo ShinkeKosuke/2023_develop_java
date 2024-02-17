@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -50,4 +52,12 @@ public class Event extends AbstractEntity {
 	@JoinColumn(name = "user_id")
 	@NotNull(message = "ユーザは必須入力です")
 	private User user;
+
+	@Column(length = 11, nullable = true)
+	private Integer price;
+
+	@Column(length = 11, nullable = false)
+	private Integer price_flg;
+
+	private Long count;
 }

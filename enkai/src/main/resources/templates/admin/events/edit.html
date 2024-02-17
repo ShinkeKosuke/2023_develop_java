@@ -6,7 +6,7 @@
 	<body>
 		<div layout:fragment="content">
 			<h1 class="page-header">イベント編集</h1>
-			<form th:action="@{/admin/events/edit}" th:object="${event}" method="post">
+			<form th:action="@{/admin/events/edit/{id}(id=*{id})}" th:object="${event}" method="post">
 				<ul th:if="${#fields.hasErrors()}" class="alert alert-danger" role="alert">
 				    <li th:each="err : ${#fields.errors('*')}">
 				        <span th:text="${err}"></span>
@@ -17,8 +17,16 @@
 				<input class="form-control" type="text" th:field="*{name}">
 				<label>詳細</label>
 				<input class="form-control" type="text" th:field="*{detail}">
-				<label>	最大参加人d数</label>
+				<label>	最大参加人数</label>
 				<input class="form-control" type="text" th:field="*{max_participant}">
+				<label>	参加費(円)</label>
+                <div>
+                  <label><input type="radio" name="price_flg" value=0 th:checked="${event.price_flg == 0}" />無料</label>
+                </div>
+                <div>
+                  <label><input type="radio" name="price_flg" value=1 th:checked="${event.price_flg == 1}"/>有料</label>
+                </div>
+                <input class="form-control" type="text" th:field="*{price}">
                 <label for="category">カテゴリ</label>
           		<select name="category" class="dropdown form-control">
 				    <option th:each="item : ${@categoryRepository.findAll()}" th:selected="${item.id == event.category.id}" th:value="${item.id}" th:text="${item.name}"></option>

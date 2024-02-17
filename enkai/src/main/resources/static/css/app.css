@@ -34,5 +34,11 @@ ul {
     margin-bottom: 10px;
 }
 .normal {
-	overflow-wrap: normal;
+    inline-size: 280px;
+    overflow-wrap: break-word;
+}
+
+.message-me {
+  background-color: rgb(201, 254, 204);
+  margin-left: 800px;
 }

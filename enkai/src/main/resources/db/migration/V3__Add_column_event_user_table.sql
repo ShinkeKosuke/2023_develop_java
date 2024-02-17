@@ -1,0 +1,1 @@
+ALTER TABLE event_users ADD pay_flg int(11) DEFAULT 0 COMMENT '支払い済みフラグ' AFTER user_id;

@@ -16,12 +16,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.demo.common.DataNotFoundException;
 import com.example.demo.common.FlashData;
 import com.example.demo.entity.Event;
+import com.example.demo.entity.User;
 import com.example.demo.service.EventService;
 import com.example.demo.service.EventUserService;
 import com.example.demo.service.UserService;
 
 @Controller
-@RequestMapping(value = {"/", "/admin", "/admin/events"})
+@RequestMapping(value = { "/", "/admin", "/admin/events" })
 public class EventsController {
 	@Autowired
 	EventService eventService;
@@ -39,26 +40,29 @@ public class EventsController {
 	@GetMapping
 	public String list(Model model) {
 		// 全件取得
-		model.addAttribute("events", eventService.findAll());
+		model.addAttribute("events", eventService.findAllUserCount());
 		return "events/list";
 	}
-	
+
 	@GetMapping(value = "/mylist")
 	public String mylist(Model model) {
 		try {
-			model.addAttribute("events", eventService.findByUser(userService.findLoginUser()));
+			model.addAttribute("events", eventService.findMyEventAllUserCount(userService.findLoginUser().getId()));
 			return "admin/events/mylist";
 		} catch (DataNotFoundException e) {
 			return "admin";
 		}
 	}
-	
+
 	@GetMapping(value = "/view/{id}")
 	public String view(@PathVariable Integer id, Model model) {
 		try {
-			model.addAttribute("events", eventService.findById(id));
+			User user = userService.findLoginUser();
+			Event event = eventService.findById(id);
+			model.addAttribute("events", event);
 			model.addAttribute("eventUsers", eventUserService.findByEvent(eventService.findById(id)));
-			
+			model.addAttribute("participationStatus", eventUserService.findByUserAndEvent(user, event));
+
 		} catch (DataNotFoundException e) {
 			return "redirect:/admin";
 		}
@@ -67,8 +71,7 @@ public class EventsController {
 
 	@GetMapping(value = "/create")
 	public String form(@ModelAttribute Event event, Model model) {
-		String email = SecurityContextHolder.getContext()
-                .getAuthentication().getName();
+		String email = SecurityContextHolder.getContext().getAuthentication().getName();
 		model.addAttribute("login_user", email);
 		return "admin/events/create";
 	}
@@ -133,4 +136,3 @@ public class EventsController {
 		return "redirect:/admin";
 	}
 }
-

@@ -36,12 +36,13 @@ public class EventUsersController {
 			// ユーザとイベントを取得
 			User user = userService.findLoginUser();
 			Event event = eventService.findById(id);
-			
+
 			if(eventUserService.findByUserAndEvent(user, event) == null) {
+				Integer payType = user.getEmail() == event.getUser().getEmail() ? 1 : 0;
 				// 対象のイベントにユーザが不参加か確認し不参加の場合登録
-				eventUserService.save(new EventUser(null, event, user));
+				eventUserService.save(new EventUser(null, event, user, payType));
 			}
-			
+
 			flash = new FlashData().success("イベントの登録が完了しました");
 		} catch (Exception e) {
 			flash = new FlashData().danger("処理中にエラーが発生しました");
@@ -54,12 +55,12 @@ public class EventUsersController {
 	@GetMapping(value = "/delete/{id}")
 	public String delete(@PathVariable Integer id, RedirectAttributes ra) {
 		FlashData flash;
-		
+
 		try {
 			// イベントを取得
 			Event event = eventService.findById(id);
 			User user = userService.findLoginUser();
-			
+
 			EventUser eventUser = eventUserService.findByUserAndEvent(user, event);
 
 			// 対象のイベントにユーザが参加済みか確認し参加の場合削除

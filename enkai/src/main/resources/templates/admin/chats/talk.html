@@ -27,14 +27,14 @@
   <body>
     <div layout:fragment="content">
       <h1 th:text="*{event.name}"></h1>
-      <div th:each="chat: ${chats}" th:object="${chat}" class="boder">
-		  <div class="normal">
-        <ul th:text="*{user.email}"></ul>
-        <ul th:text="*{body}"></ul>
-        <ul th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></ul>
-		  </div>
+      <div th:each="chat: ${chats}" th:object="${chat}" class="boder" th:classappend="*{user.email} == ${email} ? 'message-me'">
+        <div class="normal">
+          <ul th:text="*{user.email}"></ul>
+          <ul th:text="*{body}"></ul>
+          <ul th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></ul>
+		</div>
       </div>
-      
+
       <ul>
         <label>本文</label>
         <input class="form-control" type="text" id="message">

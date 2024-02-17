@@ -13,6 +13,7 @@
             <th>イベント名</th>
             <th>最大参加人数</th>
             <th>現在の参加者数</th>
+            <th>参加費(円)</th>
             <th>カテゴリ</th>
             <th>管理ユーザー</th>
             <th>作成日時</th>
@@ -25,7 +26,9 @@
             <td th:text="*{id}"></td>
             <td th:text="*{name}"></td>
             <td th:text="*{max_participant}"></td>
-            <td th:text="*{max_participant}"></td>
+            <td th:text="*{count}"></td>
+            <td th:if="${event.price_flg == 0}">無料</td>
+            <td th:if="${event.price_flg == 1}" th:text="*{price}"></td>
             <td th:text="*{category.name}"></td>
             <td th:text="*{user.email}"></td>
             <td th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></td>

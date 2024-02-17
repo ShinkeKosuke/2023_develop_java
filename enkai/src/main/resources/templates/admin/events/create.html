@@ -19,6 +19,14 @@
 				<input class="form-control" type="text" th:field="*{detail}">
 				<label>	最大参加人数</label>
 				<input class="form-control" type="text" th:field="*{max_participant}">
+				<label>	参加費(円)</label>
+                <div>
+                  <label><input type="radio" name="price_flg" value=0 th:checked=true />無料</label>
+                </div>
+                <div>
+                  <label><input type="radio" name="price_flg" value=1 />有料</label>
+                </div>
+                <input class="form-control" type="text" th:field="*{price}">
                 <label for="customer">カテゴリ</label>
                 <select class="form-control" th:field="*{category}">
                     <th:block th:each="category : ${@categoryRepository.findAll()}">

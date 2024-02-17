@@ -37,4 +37,7 @@ public class EventUser extends AbstractEntity {
 	@JoinColumn(name = "user_id")
 	@NotNull(message = "ユーザは必須入力です")
 	private User user;
+
+	@Column(length = 11, nullable = false)
+	private Integer pay_flg;
 }

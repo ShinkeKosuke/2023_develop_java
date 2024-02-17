@@ -12,6 +12,7 @@
             <th>ID</th>
             <th>イベント名</th>
             <th>最大参加人数</th>
+            <th>参加費(円)</th>
             <th>カテゴリ</th>
             <th>管理ユーザー</th>
             <th>作成日時</th>
@@ -23,6 +24,8 @@
             <td th:text="*{id}"></td>
             <td th:text="*{name}"></td>
             <td th:text="*{max_participant}"></td>
+            <td th:if="${event.price_flg == 0}">無料</td>
+            <td th:if="${event.price_flg == 1}" th:text="*{price}"></td>
             <td th:text="*{category.name}"></td>
             <td th:text="*{user.email}"></td>
             <td th:text="*{#dates.format(createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></td>
@@ -38,6 +41,7 @@
             <th>ユーザID</th>
             <th>ユーザ名</th>
             <th>作成日時</th>
+            <td th:if="${events.price_flg == 1}">参加費の支払い状況</td>
           </tr>
         </thead>
         <tbody>
@@ -45,14 +49,16 @@
             <td th:text="*{user.id}"></td>
             <td th:text="*{user.email}"></td>
             <td th:text="*{#dates.format(user.createdAt, 'yyyy年MM月dd日HH時mm分ss秒')}"></td>
+            <td th:if="${events.price_flg == 1 && user.pay_flg == 0}"><a th:href="@{/admin/pay/{id}(id=*{id})}">未払い</a></td>
+            <td th:if="${events.price_flg == 1 && user.pay_flg == 1}">支払い済み</td>
           </tr>
         </tbody>
       </table>
       <ul class="center">
-        <td class="actions text-nowrap">
+        <td class="actions text-nowrap" th:if="${participationStatus == null}">
           <a th:href="@{/admin/eventusers/create/{id}(id=*{id})}" class="btn btn-primary">参加する</a>
         </td>
-        <td class="actions text-nowrap">
+        <td class="actions text-nowrap" th:if ="${participationStatus != null}">
           <a th:href="@{/admin/chats/talk/{id}(id=*{id})}" class="btn btn-primary">チャットに参加する</a>
           <a th:href="@{/admin/eventusers/delete/{id}(id=*{id})}" class="btn btn-primary">辞退する</a>
         </td>

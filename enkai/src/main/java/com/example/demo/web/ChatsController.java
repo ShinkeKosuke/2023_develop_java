@@ -24,10 +24,10 @@ import com.example.demo.service.UserService;
 public class ChatsController {
 	@Autowired
 	EventService eventService;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	ChatService chatService;
 
@@ -37,12 +37,13 @@ public class ChatsController {
 			Event event = eventService.findById(id);
 			model.addAttribute("event", eventService.findById(id));
 			model.addAttribute("chats", chatService.findByEvent(event));
+			model.addAttribute("email", SecurityContextHolder.getContext().getAuthentication().getName());
 			return "admin/chats/talk";
 		} catch (DataNotFoundException e) {
 			return "admin";
 		}
 	}
-	
+
 
 	@PostMapping(value = "/create")
 	public String register(@RequestBody ChatJsonDao request) {
